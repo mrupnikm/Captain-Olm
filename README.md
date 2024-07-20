@@ -47,4 +47,3 @@ the init container's behavior if needed. You may want to add additional steps or
 Dockerfile is tailored to decrypt secrets using either PGP or Age and copies the decrypted output into the Kubernetes secret.
 
 We hope you find this Helm chart useful for securing and managing your encrypted secrets in your Kubernetes cluster!
-
