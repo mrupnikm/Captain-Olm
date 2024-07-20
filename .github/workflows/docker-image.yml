@@ -8,11 +8,25 @@ on:
 
 jobs:
 
-  build:
+  build-and-push:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build docker --file docker/Dockerfile --tag olm-chart-sops-decryption:$(date +%s)
+  
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Extract current timestamp
+      id: timestamp
+      run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
+
+    - name: Build Docker image
+      run: docker build docker --file docker/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${{ env.TIMESTAMP }} .
+
+    - name: Push Docker image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${{ env.TIMESTAMP }}
