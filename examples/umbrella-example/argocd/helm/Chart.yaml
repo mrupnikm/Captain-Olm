@@ -1,0 +1,8 @@
+apiVersion: v2
+name: captain-olm
+description: An umbrella chart for managing custom values for dependent charts
+version: 0.1.0
+dependencies:
+  - name: captain-olm
+    version: 0.1.3
+    repository: "https://nexus.marand.si/repository/helm/"

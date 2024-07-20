@@ -1,0 +1,31 @@
+olm-chart:
+  nameOverride: "nginx"
+
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  configMap: |
+    kube-props.kubes[0].name=example
+
+  encrypted_secret:
+    age: "x"
+
+  initContainer:
+    image: ...fedora40-sops-kubectl
+    k8s_args: "-n app"
+
+  ingress:
+    enabled: true
+    hosts:
+      # adds chart name to the begining of the name
+      - host: "example.com"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific

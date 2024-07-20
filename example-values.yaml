@@ -1,0 +1,46 @@
+
+nameOverride: "captain-olm"
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+
+imagePullSecrets:
+  - name: example-pull-secret
+
+env:
+  - name: TZ
+    value: Europe/Ljubljana
+
+configMap: |
+  kube-props.kubes[0].name=example
+
+encrypted_secret:
+  pgp: ""
+
+initContainer:
+  image: oci.marand.si/library/fedora40-sops-kubectl
+  k8s_args: "-n galago"
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    cert-manager.io/cluster-issuer: example
+  hosts:
+    # adds chart name to the begining of the name
+    - host: "example.k8s.com"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    # adds chart name to the begining of the name
+    - secretName: "example-k8s-tls"
+      hosts:
+        - "example.k8s.com"

@@ -1,0 +1,33 @@
+  apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webapp
+spec:
+  destination:
+    name: ''
+    namespace: webapp
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: argocd/helm
+    repoURL: 'https://example.git.com/webapp.git'
+    targetRevision: helm
+    helm:
+      valueFiles:
+        - values.yaml
+      fileParameters:
+        - name: olm-chart.extraSecretFile
+          path: ./secret.enc.yaml
+  sources: []
+  project: webapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+      apply:
+        force: true
+  ignoreDifferences:
+    - kind: Secret
+      name: webapp-secret
+      jsonPointers:
+        - /data
+        - /metadata
