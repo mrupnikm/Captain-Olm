@@ -30,7 +30,7 @@ jobs:
         ls -l docker
         ls -l
         cd docker
-        docker build . --tag ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${{ env.TIMESTAMP }} .
+        docker build --tag ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${{ env.TIMESTAMP }} .
 
     - name: Push Docker image to Docker Hub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${{ env.TIMESTAMP }}
