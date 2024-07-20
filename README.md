@@ -39,7 +39,8 @@ provided encryption algorithm. For simple editing it is recomended to use someth
 
 ### PGP or Age Ecryption
 Update the `encrypted_secret.pgp` to the public key value or `encrypted_secret.age` to any value in your `values.yaml` file accordingly, based on whether you use PGP (Public Key Cryptography Standard)
-or Age encryption. 
+or Age encryption.
+
 
 ### Init Container Dockerfile
 We provide a Dockerfile for the init container in the `docker` directory of this repository, which you can use as a base for customizing
