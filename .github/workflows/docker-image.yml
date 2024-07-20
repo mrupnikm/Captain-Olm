@@ -24,8 +24,9 @@ jobs:
       run: |
         TAG=${GITHUB_REF#refs/tags/}
         cd docker
-        echo "Tag extracted: '$TAG'"
         docker build --tag ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${TAG} .
 
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${TAG}
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        docker push ${{ secrets.DOCKER_USERNAME }}/olm-chart-sops-decryption:${TAG}
